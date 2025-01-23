@@ -1,8 +1,7 @@
-const Component3 = ({ children }) => {
+const Component3 = ({ poruka }) => {
   return (
     <div>
-      <h3>Children prop:</h3>
-      {children}
+      <p>{poruka}</p>
     </div>
   );
 };

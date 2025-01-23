@@ -2,12 +2,13 @@ import React, { Component } from "react";
 
 class Component2 extends Component {
   render() {
-    const { ime, godine, grad } = this.props;
+    const { ime, godine, status } = this.props;
     return (
       <div>
         <p>Ime: {ime}</p>
         <p>Godine: {godine}</p>
-        <p>Grad: {grad}</p>
+        <p>Status: {status}</p>
+
       </div>
     );
   }

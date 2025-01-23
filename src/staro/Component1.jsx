@@ -1,9 +1,13 @@
-const Component1 = ({ ime, godine, grad }) => {
+const Component1 = ({ ime, godine, status }) => {
   return (
     <div>
       <p>Ime: {ime}</p>
       <p>Godine: {godine}</p>
-      <p>Grad: {grad}</p>
+      <p>Godine: {godine}</p>
+      <p>Status: {status}</p>
+
+
+
     </div>
   );
 };

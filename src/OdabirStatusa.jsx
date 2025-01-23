@@ -1,17 +1,41 @@
-import React from "react";
-import Form from 'react-bootstrap/Form';
+import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function OdabirStatusa() {
-  return (
-    <Form.Select aria-label="odabir statusa">
-      <option>Odabir statusa</option>
-      <option value="1">Hladan lead</option>
-      <option value="2">Zainteresiran lead</option>
-      <option value="3">OPotencijalni klijent</option>
-      <option value="4">Klijent</option>      
-    </Form.Select>
-  );
+class OdabirStatusa extends Component {
+  handleStatusChange = (e) => {
+    const { onStatusChange } = this.props;
+    const { value, dataset } = e.target; // value je odabrani status, a dataset.index je indeks korisnika
+    onStatusChange(dataset.index, value); // Pozivanje funkcije proslijeđene preko props-a
+  };
+
+  render() {
+    const { korisnici, statusOpcije } = this.props;
+
+    return (
+      <div>
+        <h3>Odabir statusa korisnika</h3>
+        {korisnici.map((korisnik, index) => (
+          <div key={index} className="mb-3">
+            <label>
+              {korisnik.ime} ({korisnik.godine} godina):
+            </label>
+            <select
+              className="form-select"
+              value={korisnik.status}
+              onChange={this.handleStatusChange}
+              data-index={index} // Dodajemo indeks korisnika za identifikaciju
+            >
+              {statusOpcije.map((status, i) => (
+                <option key={i} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
-
 
 export default OdabirStatusa;
