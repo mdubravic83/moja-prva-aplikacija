@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+
+.buttonStyle {
+
+  height: "50px", // Postavi visinu
+  width: "200px", // Postavi širinu
+  backgroundColor: "#" + color, // Boja pozadine
+  display: "flex", // Flexbox za centriranje
+  justifyContent: "center", // Horizontalno centriranje
+  alignItems: "center", // Vertikalno centriranje
+  border: "none", // Bez obruba
+  borderRadius: "10px", // Zaobljeni rubovi
+  color: "white", // Boja teksta
+  cursor: "pointer", // Promjena kursora
+
+  
+}
