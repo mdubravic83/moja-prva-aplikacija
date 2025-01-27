@@ -1,81 +1,62 @@
-import React, { Component } from "react";
-import Component1 from "./Component1";
-import Component2 from "./Component2";
+import { useState } from "react";
 import Component3 from "./Component3";
 import MapComponent from "./MapComponent";
+import useGenerateRandomColor from "./useGenerateRandomColor";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      korisnici: [
-        { ime: "Marko", godine: 25 , grad: "Zagreb" },
-        { ime: "Ana", godine: 30 , grad: "Opatija" }
-      ],
+function App() {
 
+  //poziv funkcije za promjenu boje gumba
+  const { color, generateColor } = useGenerateRandomColor();
 
-      poruka: "Dobrodošli u Algebru!"
+  const [korisnici, setKorisnici] = useState([
+    { ime: "Marko", godine: 25, grad: "Zagreb" },
+    { ime: "Ana", godine: 30, grad: "Opatija" },
+  ]);
 
-    };
-  }
+  const [poruka] = useState("Dobrodošli u Algebru!");
 
-  // const brojacGodina [this.godine, setGodine]= this.state();
-
-  povecajGodine = (index) => {
-    const noviKorisnici = [...this.state.korisnici];
-    noviKorisnici[index].godine += 1; // Povećaj godine za korisnika na zadatom indeksu
-    this.setState({ korisnici: noviKorisnici });
+  // Funkcija za povećanje godina
+  const povecajGodine = (index) => {
+    const noviKorisnici = [...korisnici];
+    noviKorisnici[index].godine += 1;
+    setKorisnici(noviKorisnici);
   };
 
+  // Funkcija za promjenu imena
+  const promijeniIme = (index, novoIme) => {
+    const noviKorisnici = [...korisnici];
+    noviKorisnici[index].ime = novoIme;
+    setKorisnici(noviKorisnici);
+  };
 
-  render() {
-    const { korisnici, poruka  } = this.state;
-
-
-    // return (
-    //   <div>
-    //     {/* Prosljeđivanje props-a */}
-
-    //     <div>
-
-    //       <button onClick={() => setGodine(this.godine+1)}>Povećaj za 1 godinu</button>
-    //     </div>
-    //     <Component1 ime={korisnici[0].ime} godine={korisnici[0].godine} grad={korisnici[0].grad} />
-    //     <Component2 ime={korisnici[1].ime} godine={korisnici[1].godine} grad={korisnici[1].grad}>
-          
-    //        <Component2 />
-    //     <Component3 poruka={this.state.poruka} />
-    //     <MapComponent/>
-
-        
-
-
-        
-    //   </div>
-    // );
-
-
-    return (
-      <div>
-        <div>
-          <button onClick={() => this.povecajGodine(0)}>Povećaj Marku godine</button>
-          <button onClick={() => this.povecajGodine(1)}>Povećaj Ani godine</button>
+  return (
+    <div>
+      {korisnici.map((korisnik, index) => (
+        <div key={index}>
+          <input
+            type="text"
+            value={korisnik.ime}
+            onChange={(e) => promijeniIme(index, e.target.value)}
+          />
+          <p>
+            {korisnik.ime} ima {korisnik.godine} godina i živi u {korisnik.grad}.
+          </p>
+          <button
+            style={{ backgroundColor: color }}
+            className="buttonStyle"
+            onClick={() => {
+              povecajGodine(index); // Prva funkcija
+              generateColor(); // Druga funkcija
+            }}
+          >
+            Povećaj godine za {korisnik.ime}
+          </button>
         </div>
-        <Component1
-          ime={korisnici[0].ime}
-          godine={korisnici[0].godine}
-          grad={korisnici[0].grad}
-        />
-        <Component2
-          ime={korisnici[1].ime}
-          godine={korisnici[1].godine}
-          grad={korisnici[1].grad}
-        />
-        <Component3 poruka={poruka} />
-        <MapComponent />
-      </div>
-    );
-  }
+      ))}
+      <Component3 poruka={poruka} />
+      <MapComponent />
+    </div>
+  );
 }
 
 export default App;
