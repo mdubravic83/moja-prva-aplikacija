@@ -66,7 +66,6 @@
 
 // export default App;
 
-
 import { useState } from "react";
 import MapComponent from "./MapComponent";
 import useGenerateRandomColor from "./useGenerateRandomColor";
@@ -77,15 +76,17 @@ function App() {
   const [korisnici, setKorisnici] = useState([
     { ime: "Marko", godine: 25, grad: "Zagreb" },
     { ime: "Ana", godine: 30, grad: "Opatija" },
+    { ime: "Ivica", godine: 32, grad: "Opatija" },
+
+    { ime: "Šime", godine: 30, grad: "Opatija" },
+
+    { ime: "Jruica", godine: 30, grad: "Opatija" },
+
+
+
   ]);
 
   const [poruka] = useState("Dobrodošli u Algebru!");
-
-  const povecajGodine = (index) => {
-    const noviKorisnici = [...korisnici];
-    noviKorisnici[index].godine += 1;
-    setKorisnici(noviKorisnici);
-  };
 
   const promijeniIme = (index, novoIme) => {
     const noviKorisnici = [...korisnici];
@@ -95,29 +96,13 @@ function App() {
 
   return (
     <div>
-      <MapComponent korisnici={korisnici} />
-      {korisnici.map((korisnik, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            value={korisnik.ime}
-            onChange={(e) => promijeniIme(index, e.target.value)}
-          />
-          <p>
-            {korisnik.ime} ima {korisnik.godine} godina i živi u {korisnik.grad}.
-          </p>
-          <button
-            style={{ backgroundColor: color }}
-            className="buttonStyle"
-            onClick={() => {
-              povecajGodine(index);
-              generateColor();
-            }}
-          >
-            Povećaj godine za {korisnik.ime}
-          </button>
-        </div>
-      ))}
+      <MapComponent
+        korisnici={korisnici}
+        setKorisnici={setKorisnici}
+        color={color}
+        generateColor={generateColor}
+        promijeniIme={promijeniIme}
+      />
     </div>
   );
 }
