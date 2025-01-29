@@ -69,6 +69,8 @@
 import { useState } from "react";
 import MapComponent from "./MapComponent";
 import useGenerateRandomColor from "./useGenerateRandomColor";
+import Forma from "./Forma";
+import { Form } from "react-bootstrap";
 
 function App() {
   const { color, generateColor } = useGenerateRandomColor();
@@ -103,6 +105,8 @@ function App() {
         generateColor={generateColor}
         promijeniIme={promijeniIme}
       />
+      <br></br>
+      <Forma></Forma>
     </div>
   );
 }
