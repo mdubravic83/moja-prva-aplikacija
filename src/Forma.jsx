@@ -33,12 +33,9 @@ const Forma = () => {
         </small>
         <button type="submit" className="btn btn-primary">Potvrdi unos</button>
       </form>
-
-      {/* Dodatni gumb "Početno stanje" */}
       <button onClick={handlePocetnoStanje}>Početno stanje</button>
 
-      {/* Tekst se prikazuje samo ako kliknemo "Početno stanje" */}
-      {poslano && <p>Posljednje spremljeno: <strong>{poslano}</strong></p>}
+      {<p>Posljednje spremljeno: <strong>{poslano}</strong></p>}
     </div>
   );
 };
