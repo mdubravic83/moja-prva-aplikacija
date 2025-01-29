@@ -2,6 +2,7 @@ import { useState } from "react";
 import Component3 from "./Component3";
 import MapComponent from "./MapComponent";
 import useGenerateRandomColor from "./useGenerateRandomColor";
+import Forma from "./Forma";
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
       ))}
       <Component3 poruka={poruka} />
       <MapComponent />
+      <Forma></Forma>
     </div>
   );
 }
