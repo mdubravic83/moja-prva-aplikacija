@@ -56,99 +56,87 @@
 // }
 
 // export default App;
+
+
 import React, { useEffect, useState } from "react";
-import Dropdown from 'react-bootstrap/Dropdown';
-import 'bootstrap/dist/css/bootstrap.min.css';  
 
 const API_URL = "https://api.chucknorris.io/jokes/random";
 const API_CATEGORIES = "https://api.chucknorris.io/jokes/categories";
 const API_URL_CATEGORY = "https://api.chucknorris.io/jokes/random?category=";
-const API_URL_QUERY = "https://api.chucknorris.io/jokes/search?query=";
-
 
 function App() {
-  const [joke, setJoke] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [categoryJoke, setCategoryJoke] = useState(null);
-  const [queryJoke, setQueryJoke] = useState(null);
-
+  const [sala, setSala] = useState(null); //Ovo koristim za prikaz random šale
+  const [kategorije, setKategorije] = useState([]); 
+  const [selectedCategory, setOdabraneKategorije] = useState(null);
+  const [salaPoKategoriji, setSalePoKategoriji] = useState(null);
 
   // Dohvati random šalu
   useEffect(() => {
     fetch(API_URL)
-      .then(response => response.json())
-      .then(data => setJoke(data))
+      .then(odgovor => odgovor.json())
+      .then(data => setSala(data))
       .catch(error => console.error("GREŠKA!!!", error));
   }, []);
 
-  // Dohvati  kategorije
+  // Dohvati sve kategorije
   useEffect(() => {
     fetch(API_CATEGORIES)
       .then(response => response.json())
-      .then(data => setCategories(data))
+      .then(data => setKategorije(data))
       .catch(error => console.error("GREŠKA!!!", error));
   }, []);
 
-  // Dohvati šalu po kategoriji kad se klikne
-  const fetchJokeByCategory = (category) => {
+  const fetchSalePoKategoriji = (kategorije) => {
     fetch(`${API_URL_CATEGORY}${category}`)
       .then(response => response.json())
       .then(data => {
-        setSelectedCategory(category);
+        setSelectedCategory(kategorije);
         setCategoryJoke(data);
       })
       .catch(error => console.error("GREŠKA!!!", error));
   };
 
-    // Dohvati šalu po query-u kad se uradi input
-    const fetchJokeByQuery = (query) => {
-      fetch(`${API_URL_QUERY}${query}`)
-        .then(response => response.json())
-        .then(data => {
-          setQueryJoke(query);
-        })
-        .catch(error => console.error("GREŠKA!!!", error));
-    };
-
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>CHUCK NORRIS ŠALE</h1>
 
-      {joke ? (
+      {/* Prikaz random šale */}
+      {sala ? (
         <div>
-          <img src={joke.icon_url} alt="Chuck Norris" />
-          <p>{joke.value}</p>
+          <img src={sala.icon_url} alt="Chuck Norris" />
+          <p>{sala.value}</p>
           <br /><br />
         </div>
       ) : (
         <p>Učitavanje...</p>
       )}
 
-
-      <p></p>
+      {/* Prikaz kategorija */}
       <h2>Odaberi kategoriju:</h2>
+      {kategorije.length > 0 ? (
+        <ul style={{ listStyleType: "none", padding: 0 }}>
+          {kategorije.map(category => (
+            <li
+              key={category}
+              style={{
+                cursor: "pointer",
+                color: "blue",
+                textDecoration: "underline",
+                marginBottom: "5px",
+              }}
+              onClick={() => fetchJokeByCategory(category)}
+            >
+              {kategorije}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Učitavanje kategorija...</p>
+      )}
 
-      <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {selectedCategory ? selectedCategory : "Odaberi kategoriju"}
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          {categories.length > 0 ? (
-            categories.map(category => (
-              <Dropdown.Item key={category} onClick={() => fetchJokeByCategory(category)}>
-                {category}
-              </Dropdown.Item>
-            ))
-          ) : (
-            <Dropdown.Item disabled>Učitavanje kategorija...</Dropdown.Item>
-          )}
-        </Dropdown.Menu>
-      </Dropdown>
-
+      {/* Prikaz šale iz odabrane kategorije */}
       {categoryJoke && (
-        <div style={{ marginTop: "20px" }}>
+        <div>
           <h3>Šala iz kategorije: {selectedCategory}</h3>
           <p>{categoryJoke.value}</p>
         </div>
