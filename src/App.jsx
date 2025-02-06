@@ -56,23 +56,25 @@
 // }
 
 // export default App;
+
 import React, { useEffect, useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
-import 'bootstrap/dist/css/bootstrap.min.css';  
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const API_URL = "https://api.chucknorris.io/jokes/random";
 const API_CATEGORIES = "https://api.chucknorris.io/jokes/categories";
 const API_URL_CATEGORY = "https://api.chucknorris.io/jokes/random?category=";
 const API_URL_QUERY = "https://api.chucknorris.io/jokes/search?query=";
 
-
 function App() {
   const [joke, setJoke] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categoryJoke, setCategoryJoke] = useState(null);
+  const [query, setQuery] = useState(""); 
   const [queryJoke, setQueryJoke] = useState(null);
-
 
   // Dohvati random šalu
   useEffect(() => {
@@ -82,7 +84,7 @@ function App() {
       .catch(error => console.error("GREŠKA!!!", error));
   }, []);
 
-  // Dohvati  kategorije
+  // Dohvati kategorije
   useEffect(() => {
     fetch(API_CATEGORIES)
       .then(response => response.json())
@@ -90,7 +92,7 @@ function App() {
       .catch(error => console.error("GREŠKA!!!", error));
   }, []);
 
-  // Dohvati šalu po kategoriji kad se klikne
+  // Dohvati šalu po kategoriji
   const fetchJokeByCategory = (category) => {
     fetch(`${API_URL_CATEGORY}${category}`)
       .then(response => response.json())
@@ -101,15 +103,21 @@ function App() {
       .catch(error => console.error("GREŠKA!!!", error));
   };
 
-    // Dohvati šalu po query-u kad se uradi input
-    const fetchJokeByQuery = (query) => {
-      fetch(`${API_URL_QUERY}${query}`)
-        .then(response => response.json())
-        .then(data => {
-          setQueryJoke(query);
-        })
-        .catch(error => console.error("GREŠKA!!!", error));
-    };
+  // Dohvati šalu po query-u
+  const fetchJokeByQuery = () => {
+    if (!query) return;
+    
+    fetch(`${API_URL_QUERY}${query}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.result.length > 0) {
+          setQueryJoke(data.result[0]); // Uzima prvu pronađenu šalu
+        } else {
+          setQueryJoke(null);
+        }
+      })
+      .catch(error => console.error("GREŠKA!!!", error));
+  };
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
@@ -125,8 +133,28 @@ function App() {
         <p>Učitavanje...</p>
       )}
 
+      <h3>Upiši neku ključnu riječ za pretragu šale:</h3>
+      <div style={{ marginBottom: "20px" }}>
+        <Form.Control
+          type="text"
+          placeholder="Npr. karate"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <Button variant="primary" onClick={fetchJokeByQuery} style={{ marginTop: "10px" }}>
+          Pretraži
+        </Button>
+      </div>
 
-      <p></p>
+      {queryJoke ? (
+  <div>
+    <h3>Pronađena šala:</h3>
+    <p>{queryJoke.value}</p>
+  </div>
+) : query && (
+  <p style={{ color: "red", fontWeight: "bold" }}>Nema šale pod ovom ključnom riječi.</p>
+)}
+
       <h2>Odaberi kategoriju:</h2>
 
       <Dropdown>
