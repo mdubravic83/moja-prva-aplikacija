@@ -27,7 +27,8 @@ function App() {
   const promijeniIme = (index, novoIme) => {
     const noviKorisnici = [...korisnici];
     noviKorisnici[index].ime = novoIme;
-    setKorisnici(noviKorisnici);
+    setKorisnici(noviKorisnici); 
+    
   };
 
   return (
