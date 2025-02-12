@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <textarea  oninput="selectText()" id="text-box" >
+    </textarea>
+    <p>Broj znakova: <span id="char-count">0</span></p>
+
+
+
+    <script>
+
+// MOJ KOD
+
+// function selectText() {
+//   const input = document.getElementById("text-box");
+//   input.select();
+// }
+// const brojZnakova = selectText();
+// for (var i = 0; i < str.length; i++) {
+//     count++;
+// }
+// ISPRAVAN KOD
+        function updateCharCount() {
+            const input = document.getElementById("text-box");
+            const countSpan = document.getElementById("char-count");
+            countSpan.textContent = input.value.length;
+        }
+
+
+
+        // function isDivisibleBy3(value) {
+        //     if (value % 3 === 0) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+
+        // console.log(isDivisibleBy3(3)); // true
+        // console.log(isDivisibleBy3(4)); // false
+    </script>
+</body>
+</html>
